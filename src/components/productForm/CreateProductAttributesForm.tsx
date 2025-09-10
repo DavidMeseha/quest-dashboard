@@ -47,7 +47,8 @@ export default function CreateProductAttributesForm({ form }: Props) {
             <ErrorMessage
               error={
                 form.formState.errors.attributes?.[idx]?.attributeControlType?.message ||
-                form.formState.errors.attributes?.[idx]?.attributeControlType?.message
+                form.formState.errors.attributes?.[idx]?.name?.message ||
+                form.formState.errors.attributes?.[idx]?.message
               }
             />
             {/* Values */}
@@ -56,6 +57,7 @@ export default function CreateProductAttributesForm({ form }: Props) {
               form={form}
               type={form.watch(`attributes.${idx}.attributeControlType`)}
             />
+            <ErrorMessage error={form.formState.errors.attributes?.[idx]?.values?.message} />
           </div>
         ))}
       </div>
