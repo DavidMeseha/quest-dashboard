@@ -1,5 +1,6 @@
 export const attributeTypes = ['DropdownList', 'RadioList', 'Checkboxes', 'TextBox', 'Color'] as const;
-export const genders = ['unisex', 'male', 'female'] as const;
+export const productGenders = ['unisex', 'male', 'female'] as const;
+export const genders = ['male', 'female'] as const;
 export const initialProductFormValues = {
   images: [],
   name: '',

@@ -34,20 +34,37 @@ A simple, modern dashboard for managing vendor's products, built with Vite, Reac
 
 ---
 
+## Code Quality
+
+- **TypeScript** is used throughout the project for type safety and better developer experience.
+- **ESLint** is configured to enforce consistent code style and catch common issues.
+- **Prettier** is used for automatic code formatting.
+
 ## Getting Started
 
 1. **Install dependencies**
    ```bash
    npm install
    ```
+2. **Run the development server**
    ```bash
    npm run dev
    ```
+3. **Build for production**
    ```bash
-   npm build
+   npm run build
+   ```
+4. **Check code quality Errors prettier & linting**
+   ```bash
+   npm run check
+   ```
+5. **Auto Format & lint apply**
+   ```bash
+   npm run format
    ```
 
 **Folder Structure**
+
 - `src/components/` – UI and dashboard components
 - `src/services/user-api/` – User authentication and profile API logic
 - `src/services/admin-api/` – Vendor and product management API logic

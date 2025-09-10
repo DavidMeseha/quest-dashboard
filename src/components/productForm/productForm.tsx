@@ -1,7 +1,7 @@
 'use client';
 
 import { genders, initialProductFormValues } from '@/constants/data-values';
-import type { Gender, IFullProduct, IProductAttribute } from '@/schemas/types';
+import type { IFullProduct, IProductAttribute, ProductGender } from '@/schemas/types';
 import { productSchema, type ProductForm as ProductInputForm } from '@/schemas/validation';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
@@ -39,7 +39,7 @@ export default function ProductForm({ product, onSubmit, isPending }: Props) {
             attributes: [...product.productAttributes] as IProductAttribute[],
             category: product.category._id,
             fullDescription: product.fullDescription,
-            gender: product.gender as Gender,
+            gender: product.gender as ProductGender,
             images: product.pictures.map((pic) => pic.imageUrl),
             name: product.name,
             price: { price: product.price.price, oldPrice: product.price.old ?? 0 },

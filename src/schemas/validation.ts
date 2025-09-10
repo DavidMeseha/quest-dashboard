@@ -1,4 +1,4 @@
-import { attributeTypes, genders } from '../constants/data-values';
+import { attributeTypes, productGenders } from '../constants/data-values';
 import z from 'zod';
 
 const passwordRegexValidation = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/g;
@@ -13,7 +13,7 @@ export const productSchema = z.object({
     price: z.number().min(1, 'Product price required'),
     oldPrice: z.number().optional()
   }),
-  gender: z.enum(genders),
+  gender: z.enum(productGenders),
   category: z.string().min(1, 'Pick a category'),
   tags: z.array(z.string()).min(1, 'Use at least 1 tag'),
   stock: z.number().min(0, 'Stock is required at least of value 0'),
