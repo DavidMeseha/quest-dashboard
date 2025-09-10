@@ -83,7 +83,7 @@ export default function NetworkErrorBoundary({ children }: { children: React.Rea
     <>
       {children}
       {error && (
-        <div className="text-accent bg-accent-foreground fixed start-4 bottom-4 flex items-center justify-center gap-2 rounded px-6 py-3 drop-shadow-xl">
+        <div className="text-accent bg-accent-foreground fixed start-4 bottom-4 z-50 flex items-center justify-center gap-2 rounded px-6 py-3 drop-shadow-xl md:start-22">
           <BiSolidErrorCircle className="text-destructive" size={20} />
           {error}
           <Button variant="secondary" className="ms-4 h-7 px-2" onClick={check}>

@@ -36,6 +36,7 @@ export default function UserProvider({ children }: Props) {
           return null;
         })
         .catch(() => setUser(undefined)),
+
     enabled: !!user,
     refetchInterval: 1_680_000,
     retry: false

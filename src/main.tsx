@@ -13,6 +13,8 @@ import UserProtect from './components/Utils/UserProtect';
 import AppPagesLayout from './layouts/AppPagesLayout';
 import LoadingSpinner from './components/ui/loading-spinner';
 import NetworkErrorBoundary from './components/Utils/NetworkErrorBoundary';
+import LoginPage from './pages/Login';
+import RegisterVendorPage from './pages/RegisterVendor';
 
 const router = createBrowserRouter([
   {
@@ -26,15 +28,15 @@ const router = createBrowserRouter([
             children: [
               {
                 path: '/create-product',
-                Component: lazy(() => import('./pages/CreateProduct'))
+                Component: lazy(() => import('@/pages/CreateProduct'))
               },
               {
                 path: '/edit-product/:id',
-                Component: lazy(() => import('./pages/EditProduct'))
+                Component: lazy(() => import('@/pages/EditProduct'))
               },
               {
                 path: '/products',
-                Component: lazy(() => import('./pages/Products'))
+                Component: lazy(() => import('@/pages/Products'))
               }
             ]
           }
@@ -45,22 +47,22 @@ const router = createBrowserRouter([
         children: [
           {
             path: '/',
-            Component: lazy(() => import('./pages/Login'))
+            Component: LoginPage
           },
           {
             path: '/login',
-            Component: lazy(() => import('./pages/Login'))
+            Component: LoginPage
           },
           {
             path: '/register',
-            Component: lazy(() => import('./pages/Register'))
+            Component: lazy(() => import('@/pages/Register'))
           },
           {
             Component: UserProtect,
             children: [
               {
                 path: '/vendor',
-                Component: lazy(() => import('./pages/RegisterVendor'))
+                Component: RegisterVendorPage
               }
             ]
           }

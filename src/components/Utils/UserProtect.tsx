@@ -8,7 +8,8 @@ export default function UserProtect() {
 
   useEffect(() => {
     if (!user) navigate('/login');
-  }, [user]);
+    if (user?.isVendor) navigate('/products');
+  }, []);
 
   if (!user) return <></>;
   return <Outlet />;
