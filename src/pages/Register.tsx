@@ -83,7 +83,6 @@ export default function RegisterPage() {
         })}
         error={errors.lastName?.message ?? ''}
         placeholder="Jhon"
-        required
         type="text"
       />
 
@@ -95,7 +94,6 @@ export default function RegisterPage() {
         })}
         error={errors.email?.message}
         placeholder="ex@email.com"
-        required
         type="email"
       />
 
@@ -107,7 +105,6 @@ export default function RegisterPage() {
         })}
         error={errors.password?.message}
         placeholder="***************"
-        required
         type="password"
       />
 
@@ -119,7 +116,6 @@ export default function RegisterPage() {
         })}
         error={errors.confirmPassword?.message}
         placeholder="***************"
-        required
         type="password"
       />
 

@@ -5,6 +5,7 @@ import { ADMIN_PRODUCTS_QUERY_KEY } from '@/constants/query-keys';
 import type { ProductForm as ProductFormInputs } from '@/schemas/validation';
 import { createProduct } from '@/services/admin-api/createProduct';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { isAxiosError } from 'axios';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
@@ -19,7 +20,11 @@ export default function CreateProduct() {
       toast.success('Product Created Successfully');
       navigate('/products');
     },
-    onError: () => toast.error('Failed to Create Product')
+    onError: (err) => {
+      if (isAxiosError(err) && err.response?.status === 500)
+        toast.error('Failed to Create, Product could be duplicate or with exact same name');
+      else toast.error('Failed to Create Product,try again later');
+    }
   });
 
   return (

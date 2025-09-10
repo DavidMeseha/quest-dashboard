@@ -67,7 +67,6 @@ export default function LoginPage() {
           })}
           error={errors.email?.message}
           placeholder="ex@email.com"
-          required
           type="email"
         />
 
@@ -78,7 +77,6 @@ export default function LoginPage() {
           })}
           error={errors.password?.message}
           placeholder="****************"
-          required
           type="password"
         />
         <ErrorMessage error={formError} />
