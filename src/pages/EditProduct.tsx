@@ -31,7 +31,7 @@ export default function EditProductPage() {
 
   return (
     <>
-      <h1 className="text-primary mb-6 text-3xl font-bold">Edit Product</h1>
+      <h1 className="mb-4 text-2xl font-bold">Edit Product</h1>
       {productQuery.isLoading ? (
         <LoadingSpinner />
       ) : (

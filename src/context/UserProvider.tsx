@@ -46,9 +46,7 @@ export default function UserProvider({ children }: Props) {
       {verifyQuery.isFetchedAfterMount ? (
         children
       ) : (
-        <div className="flex h-screen w-screen items-center justify-center">
-          <LoadingSpinner size={55} />
-        </div>
+        <LoadingSpinner className="flex h-screen w-screen items-center justify-center" />
       )}
     </userContext.Provider>
   );

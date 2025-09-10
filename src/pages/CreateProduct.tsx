@@ -24,7 +24,7 @@ export default function CreateProduct() {
 
   return (
     <>
-      <h1 className="text-primary mb-6 text-3xl font-bold">Create Product</h1>
+      <h1 className="mb-4 text-2xl font-bold">Create Product</h1>
       <ProductForm
         isPending={createProductMutation.isPending}
         onSubmit={(form) => createProductMutation.mutate(form as ProductFormInputs)}

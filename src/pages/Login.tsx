@@ -86,6 +86,12 @@ export default function LoginPage() {
       <SubmitButton className="w-full" isLoading={loginMutation.isPending || isLoading} type="submit">
         Login
       </SubmitButton>
+
+      <div className="text-sm text-gray-600">
+        <p>Just in case you don't want to register use this Credentials</p>
+        <p>email: davidmmyh@gmail.com</p>
+        <p>password: !Dmmyh17121994</p>
+      </div>
     </form>
   );
 }

@@ -12,6 +12,7 @@ import VendorProtect from './components/Utils/VendorProtect';
 import UserProtect from './components/Utils/UserProtect';
 import AppPagesLayout from './layouts/AppPagesLayout';
 import LoadingSpinner from './components/ui/loading-spinner';
+import NetworkErrorBoundary from './components/Utils/NetworkErrorBoundary';
 
 const router = createBrowserRouter([
   {
@@ -74,11 +75,13 @@ const queryClient = new QueryClient({});
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <UserProvider>
-        <Suspense fallback={<LoadingSpinner className="h-screen w-screen" />}>
-          <RouterProvider router={router} />
-        </Suspense>
-      </UserProvider>
+      <NetworkErrorBoundary>
+        <UserProvider>
+          <Suspense fallback={<LoadingSpinner className="h-screen w-screen" />}>
+            <RouterProvider router={router} />
+          </Suspense>
+        </UserProvider>
+      </NetworkErrorBoundary>
     </QueryClientProvider>
     <ToastContainer position="top-right" />
   </StrictMode>
