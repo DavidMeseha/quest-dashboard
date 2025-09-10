@@ -48,9 +48,8 @@ A simple, modern dashboard for managing vendor's products, built with Vite, Reac
    ```
 
 **Folder Structure**
-
-- **_src/components/_** – UI and dashboard components
-- **_src/services/user-api/_** – User authentication and profile API logic
-- **_src/services/admin-api/_** – Vendor and product management API logic
-- **_src/context/_** – React context providers (e.g., user state)
-- **_src/hooks/_** – Custom React hooks
+- `src/components/` – UI and dashboard components
+- `src/services/user-api/` – User authentication and profile API logic
+- `src/services/admin-api/` – Vendor and product management API logic
+- `src/context/` – React context providers (e.g., user state)
+- `src/hooks/` – Custom React hooks
