@@ -15,7 +15,10 @@ export default function EditProductPage() {
 
   const productQuery = useQuery({
     queryKey: [PRODUCT_QUERY_KEY, params.id],
-    queryFn: () => getProduct(params.id as string)
+    queryFn: () => getProduct(params.id as string),
+    gcTime: 0,
+    staleTime: 0,
+    refetchOnMount: true
   });
   const product = productQuery.data;
 
