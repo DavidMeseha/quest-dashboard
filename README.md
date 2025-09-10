@@ -30,9 +30,6 @@ Test it online at: [Live Demo](https://quest-dashboard-eosin.vercel.app/)
     - **Administration API:** Handles vendor and product management  
       _Source: `/src/services/admin-api/`_
 
-- **Design**
-  - Clean, simple, and responsive interface
-
 ---
 
 ## Code Quality
