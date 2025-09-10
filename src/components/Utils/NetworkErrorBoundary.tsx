@@ -16,9 +16,7 @@ export default function NetworkErrorBoundary({ children }: { children: React.Rea
       (res) => res,
       (error) => {
         if (navigator.onLine) {
-          if (isAxiosError(error) && error.response) {
-            if (error.response.status === 500) setError('Internal Server Error');
-          } else {
+          if (isAxiosError(error) && !error.response) {
             setError('Server Down');
           }
         }
@@ -31,8 +29,6 @@ export default function NetworkErrorBoundary({ children }: { children: React.Rea
       (err) => {
         if (navigator.onLine) {
           if (isAxiosError(err) && err.response) {
-            if (err.response.status === 500) setError('Internal Server Error');
-          } else {
             setError('Server Down');
           }
         }
