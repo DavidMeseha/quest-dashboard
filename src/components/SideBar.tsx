@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { LogOut, MenuIcon, X } from 'lucide-react';
 import { Button } from './ui/button';
 import NavItem from './NavItem';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { logout } from '@/services/user-api/auth';
 import { useUserState } from '@/context/UserProvider';
 import { removeToken } from '@/lib/localstorage';
@@ -15,6 +15,7 @@ import useClickRecognition from '@/hooks/useClickRecognition';
 export default function SideBar() {
   const [open, setOpen] = useState(false);
   const { setUser } = useUserState();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const asideRef = useRef(null);
 
@@ -24,6 +25,7 @@ export default function SideBar() {
       setUser(undefined);
       removeToken();
       navigate('/login');
+      queryClient.invalidateQueries();
     }
   });
 
