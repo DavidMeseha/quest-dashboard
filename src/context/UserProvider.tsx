@@ -43,12 +43,12 @@ export default function UserProvider({ children }: Props) {
 
   return (
     <userContext.Provider value={{ user, setUser }}>
-      {verifyQuery.isFetching ? (
+      {verifyQuery.isFetchedAfterMount ? (
+        children
+      ) : (
         <div className="flex h-screen w-screen items-center justify-center">
           <LoadingSpinner size={55} />
         </div>
-      ) : (
-        children
       )}
     </userContext.Provider>
   );

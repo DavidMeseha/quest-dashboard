@@ -1,6 +1,6 @@
 'use client';
 
-import { genders, initialProductFormValues } from '@/constants/data-values';
+import { initialProductFormValues, productGenders } from '@/constants/data-values';
 import type { IFullProduct, IProductAttribute, ProductGender } from '@/schemas/types';
 import { productSchema, type ProductForm as ProductInputForm } from '@/schemas/validation';
 import { useEffect, useMemo } from 'react';
@@ -148,7 +148,7 @@ export default function ProductForm({ product, onSubmit, isPending }: Props) {
           <label>Gender</label>
           <FormDropdown
             id="gender"
-            options={genders.map((g) => ({ name: g, value: g }))}
+            options={productGenders.map((g) => ({ name: g, value: g }))}
             value={form.watch('gender')}
             onValueChange={(val) => form.setValue('gender', val as any)}
           />
