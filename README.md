@@ -1,7 +1,7 @@
 # Quest Dashboard
 
 A simple, modern dashboard for managing vendor's products, built with Vite, React, and a powerful modern stack.
-Test it online at: [Vite](https://vitejs.dev/)
+Test it online at: [Live Demo](https://quest-dashboard-eosin.vercel.app/)
 
 ## Features
 

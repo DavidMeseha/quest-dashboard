@@ -53,7 +53,7 @@ export default function NetworkErrorBoundary({ children }: { children: React.Rea
       window.removeEventListener('offline', handleOffline);
       window.removeEventListener('online', handleOnline);
     };
-  }, [error]);
+  }, []);
 
   // Status check query
   const statusQuery = useQuery({
