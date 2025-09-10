@@ -40,7 +40,7 @@ export const productSchema = z.object({
 
 export const registerSchema = z
   .object({
-    email: z.email('Email is not valid').min(1, { message: 'Email is reqired' }),
+    email: z.email('Email is not valid'),
     firstName: z.string().min(1, { message: 'Names are required' }),
     lastName: z.string().min(1, { message: 'Names are required' }),
     gender: z.enum(['male', 'female']),
@@ -59,7 +59,7 @@ export const registerSchema = z
   });
 
 export const loginSchema = z.object({
-  email: z.email('Wrong email format'),
+  email: z.email('Empty or wrong email format').min(1, 'Email required'),
   password: z.string().min(1, 'Password required')
 });
 

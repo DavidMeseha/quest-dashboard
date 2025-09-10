@@ -24,7 +24,7 @@ export default function DataPagination({ currentPage, totalPages, onPageChang }:
     return (
       <Pagination dir="ltr">
         <PaginationContent>
-          <PaginationItem>
+          <PaginationItem className="cursor-pointer">
             <PaginationPrevious
               className={currentPage <= 1 ? 'cursor-not-allowed opacity-40 hover:bg-transparent' : ''}
             />
@@ -44,7 +44,7 @@ export default function DataPagination({ currentPage, totalPages, onPageChang }:
   return (
     <Pagination dir="ltr">
       <PaginationContent>
-        <PaginationItem>
+        <PaginationItem className="cursor-pointer">
           <PaginationPrevious
             className={currentPage <= 1 ? 'cursor-not-allowed opacity-40 hover:bg-transparent' : ''}
             onClick={() => handleClicks(currentPage - 1)}
@@ -56,12 +56,12 @@ export default function DataPagination({ currentPage, totalPages, onPageChang }:
           </PaginationItem>
         )}
         {currentPage + 1 > totalPages && totalPages > 2 && (
-          <PaginationItem>
+          <PaginationItem className="cursor-pointer">
             <PaginationLink onClick={() => handleClicks(currentPage - 2)}>{currentPage - 2}</PaginationLink>
           </PaginationItem>
         )}
         {currentPage - 1 > 0 && (
-          <PaginationItem>
+          <PaginationItem className="cursor-pointer">
             <PaginationLink onClick={() => handleClicks(currentPage - 1)}>{currentPage - 1}</PaginationLink>
           </PaginationItem>
         )}
@@ -69,12 +69,12 @@ export default function DataPagination({ currentPage, totalPages, onPageChang }:
           <PaginationLink isActive>{currentPage}</PaginationLink>
         </PaginationItem>
         {currentPage + 1 <= totalPages && (
-          <PaginationItem>
+          <PaginationItem className="cursor-pointer">
             <PaginationLink onClick={() => handleClicks(currentPage + 1)}>{currentPage + 1}</PaginationLink>
           </PaginationItem>
         )}
         {currentPage - 1 <= 0 && totalPages > 2 && (
-          <PaginationItem>
+          <PaginationItem className="cursor-pointer">
             <PaginationLink onClick={() => handleClicks(currentPage + 2)}>{currentPage + 2}</PaginationLink>
           </PaginationItem>
         )}
@@ -83,7 +83,7 @@ export default function DataPagination({ currentPage, totalPages, onPageChang }:
             <PaginationEllipsis />
           </PaginationItem>
         )}
-        <PaginationItem>
+        <PaginationItem className="cursor-pointer">
           <PaginationNext
             className={currentPage >= totalPages ? 'cursor-not-allowed opacity-40 hover:bg-transparent' : ''}
             onClick={() => handleClicks(currentPage + 1)}
