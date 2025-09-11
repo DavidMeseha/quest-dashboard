@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState } from 'react';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';

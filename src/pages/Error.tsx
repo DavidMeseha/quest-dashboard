@@ -1,8 +1,11 @@
 import { Button } from '@/components/ui/button';
+import { ArrowLeftIcon } from 'lucide-react';
+import { BiSolidHome } from 'react-icons/bi';
 import { useNavigate, useRouteError } from 'react-router';
 
 export default function ErrorPage() {
   const navigate = useNavigate();
+
   const error: {
     status: number;
     statusText: string;
@@ -18,14 +21,18 @@ export default function ErrorPage() {
         <h1>Oops!</h1>
         <p>{error.statusText ?? 'Sorry, an unexpected error has occurred.'}</p>
       </div>
-      <Button
-        onClick={() => {
-          if (error.status === 404) navigate('/');
-          else location.reload();
-        }}
-      >
-        {error.status == 404 ? 'Home' : 'Reload'}
-      </Button>
+      {error.status === 404 ? (
+        <div>
+          <Button className="me-2" onClick={() => navigate(-1)}>
+            <ArrowLeftIcon /> Back
+          </Button>
+          <Button onClick={() => navigate('/')}>
+            <BiSolidHome /> Home
+          </Button>
+        </div>
+      ) : (
+        <Button onClick={() => location.reload()}>Reload</Button>
+      )}
     </div>
   );
 }

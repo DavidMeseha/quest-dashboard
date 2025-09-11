@@ -14,26 +14,26 @@ export default function NetworkErrorBoundary({ children }: { children: React.Rea
   useEffect(() => {
     const userInterceptor = userApi.interceptors.response.use(
       (res) => res,
-      (error) => {
+      (err) => {
         if (navigator.onLine) {
-          if (isAxiosError(error) && !error.response) {
+          if (isAxiosError(err) && !err.response?.data) {
             setError('Server Down');
           }
         }
 
-        return Promise.reject(error);
+        return Promise.reject(err);
       }
     );
     const adminInterceptor = adminApi.interceptors.response.use(
       (res) => res,
       (err) => {
         if (navigator.onLine) {
-          if (isAxiosError(err) && err.response) {
+          if (isAxiosError(err) && !err.response?.data) {
             setError('Server Down');
           }
         }
 
-        return Promise.reject(error);
+        return Promise.reject(err);
       }
     );
 

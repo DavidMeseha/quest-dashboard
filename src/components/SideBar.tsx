@@ -25,7 +25,7 @@ export default function SideBar() {
       setUser(undefined);
       removeToken();
       navigate('/login');
-      queryClient.invalidateQueries();
+      queryClient.clear();
     }
   });
 

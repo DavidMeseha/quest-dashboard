@@ -1,7 +1,7 @@
 'use client';
 
 import { initialProductFormValues, productGenders } from '@/constants/data-values';
-import type { IFullProduct, IProductAttribute, ProductGender } from '@/schemas/types';
+import type { FieldError, IFullProduct, IProductAttribute, ProductGender } from '@/schemas/types';
 import { productSchema, type ProductForm as ProductInputForm } from '@/schemas/validation';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
@@ -28,9 +28,10 @@ type Props = {
   product?: IFullProduct;
   onSubmit: (form: ProductInputForm | Partial<ProductInputForm>) => void;
   isPending?: boolean;
+  error: FieldError;
 };
 
-export default function ProductForm({ product, onSubmit, isPending }: Props) {
+export default function ProductForm({ product, onSubmit, isPending, error }: Props) {
   const isEdit = !!product;
   const initialValues: ProductInputForm = useMemo(
     () =>
@@ -83,7 +84,7 @@ export default function ProductForm({ product, onSubmit, isPending }: Props) {
   }, [form.formState.errors.images?.message]);
 
   return (
-    <form className="relative" onSubmit={form.handleSubmit(handleSubmit)}>
+    <form className="relative space-y-4" onSubmit={form.handleSubmit(handleSubmit)}>
       {isPending && (
         <div className="absolute z-40 flex h-full w-full items-center justify-center bg-white/60">
           <LoadingSpinner />
@@ -184,7 +185,9 @@ export default function ProductForm({ product, onSubmit, isPending }: Props) {
         </div>
       </div>
 
-      <div className="mt-8 flex gap-4">
+      <ErrorMessage error={error} />
+
+      <div className="flex gap-4">
         <SubmitButton disabled={isPending} isLoading={isPending} type="submit">
           {product ? 'Update Product' : 'Create Product'}
         </SubmitButton>
