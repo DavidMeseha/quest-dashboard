@@ -5,7 +5,7 @@ import userApi from '@/services/user-api/api';
 import adminApi from '@/services/admin-api/api';
 import { APP_STATUS_QUERY_KEY } from '@/constants/query-keys';
 import { BiSolidErrorCircle } from 'react-icons/bi';
-import { Button } from '../ui/button';
+import { Button } from '../components/ui/button';
 
 export default function NetworkErrorBoundary({ children }: { children: React.ReactNode }) {
   const queryClient = useQueryClient();

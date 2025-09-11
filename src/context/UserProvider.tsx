@@ -1,10 +1,12 @@
 import LoadingSpinner from '@/components/ui/loading-spinner';
 import { REFRESH_QUERY_KEY, VERIFY_QUERY_KEY } from '@/constants/query-keys';
-import { setToken } from '@/lib/localstorage';
+import { removeToken, setToken } from '@/lib/localstorage';
 import type { IUser } from '@/schemas/types';
 import { checkTokenValidity, refreshToken } from '@/services/user-api/auth';
 import { useQuery } from '@tanstack/react-query';
 import { createContext, useContext, useState, type Dispatch } from 'react';
+import { useLocation, useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 type Props = {
   children: React.ReactNode;
@@ -15,12 +17,15 @@ const userContext = createContext<ContextProvidedValues | undefined>(undefined);
 
 export default function UserProvider({ children }: Props) {
   const [user, setUser] = useState<IUser>();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   const verifyQuery = useQuery({
     queryKey: [VERIFY_QUERY_KEY],
     queryFn: () =>
       checkTokenValidity().then((data) => {
         setUser(data);
+        if (data && !data.isVendor) navigate('/vendor');
         return null;
       }),
 
@@ -35,7 +40,12 @@ export default function UserProvider({ children }: Props) {
           setToken(data.token);
           return null;
         })
-        .catch(() => setUser(undefined)),
+        .catch(() => {
+          navigate('/login');
+          setUser(undefined);
+          removeToken();
+          toast.warn('Session Expired, Login to continue!');
+        }),
 
     enabled: !!user,
     refetchInterval: 1_680_000,
@@ -44,7 +54,7 @@ export default function UserProvider({ children }: Props) {
 
   return (
     <userContext.Provider value={{ user, setUser }}>
-      {verifyQuery.isFetchedAfterMount ? (
+      {verifyQuery.isFetchedAfterMount || pathname.includes('login') || pathname.includes('register') ? (
         children
       ) : (
         <LoadingSpinner className="flex h-screen w-screen items-center justify-center" />

@@ -73,7 +73,7 @@ export default function TagsInput({
       return;
     }
 
-    if (e.key === ' ' || e.key === 'Spacebar') {
+    if (e.key === ' ' || e.key === 'Spacebar' || e.key === 'Enter') {
       e.preventDefault();
       const value = (e.target as HTMLInputElement).value.trim();
       if (tags.includes(value)) return;

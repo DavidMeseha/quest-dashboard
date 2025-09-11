@@ -7,7 +7,7 @@ import { isAxiosError } from 'axios';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
-export default function CreateProduct() {
+export default function CreateProductPage() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 

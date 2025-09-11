@@ -6,22 +6,23 @@ import { RouterProvider } from 'react-router/dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ToastContainer } from 'react-toastify';
 import ErrorPage from './pages/Error';
-import UserProvider from './context/UserProvider';
 import AuthPagesLayout from './layouts/AuthPagesLayout';
-import VendorProtect from './components/Utils/VendorProtect';
-import UserProtect from './components/Utils/UserProtect';
 import AppPagesLayout from './layouts/AppPagesLayout';
 import LoadingSpinner from './components/ui/loading-spinner';
-import NetworkErrorBoundary from './components/Utils/NetworkErrorBoundary';
 import LoginPage from './pages/Login';
 import RegisterVendorPage from './pages/RegisterVendor';
+import App from './App';
+import RegisterPage from './pages/Register';
+import VendorGuard from './layouts/VendorGuard';
+import UserGuard from './layouts/UserGuard';
 
 const router = createBrowserRouter([
   {
     errorElement: <ErrorPage />,
+    Component: App,
     children: [
       {
-        Component: VendorProtect,
+        Component: VendorGuard,
         children: [
           {
             Component: AppPagesLayout,
@@ -55,10 +56,10 @@ const router = createBrowserRouter([
           },
           {
             path: '/register',
-            Component: lazy(() => import('@/pages/Register'))
+            Component: RegisterPage
           },
           {
-            Component: UserProtect,
+            Component: UserGuard,
             children: [
               {
                 path: '/vendor',
@@ -84,13 +85,9 @@ const queryClient = new QueryClient({
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <NetworkErrorBoundary>
-        <UserProvider>
-          <Suspense fallback={<LoadingSpinner className="h-screen w-screen" />}>
-            <RouterProvider router={router} />
-          </Suspense>
-        </UserProvider>
-      </NetworkErrorBoundary>
+      <Suspense fallback={<LoadingSpinner className="fixed h-screen w-screen" />}>
+        <RouterProvider router={router} />
+      </Suspense>
     </QueryClientProvider>
     <ToastContainer position="top-right" />
   </StrictMode>

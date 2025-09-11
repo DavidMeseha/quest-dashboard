@@ -1,7 +1,7 @@
-import LoadingSpinner from '../ui/loading-spinner';
-import ErrorMessage from '../ui/error-message';
+import LoadingSpinner from '../loading-spinner';
+import ErrorMessage from '../error-message';
 import type { FieldError } from '@/schemas/types';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../select';
 import type { SelectProps } from '@radix-ui/react-select';
 
 export interface FormDropdownInputProps extends SelectProps {

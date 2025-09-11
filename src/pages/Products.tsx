@@ -5,7 +5,7 @@ import { ADMIN_PRODUCTS_QUERY_KEY } from '@/constants/query-keys';
 import getProducts from '@/services/admin-api/getProducts';
 import useDebounce from '@/hooks/useDebounce';
 import { Input } from '@/components/ui/input';
-import CategorySelect from '@/components/productForm/selectors/CategorySelect';
+import CategorySelect from '@/components/ui/extend/CategorySelect';
 import { NavLink } from 'react-router';
 import LoadingSpinner from '@/components/ui/loading-spinner';
 import DataPagination from '@/components/ui/extend/Pagination';

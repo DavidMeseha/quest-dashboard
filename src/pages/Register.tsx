@@ -8,7 +8,7 @@ import { registerSchema, type RegisterForm } from '@/schemas/validation';
 import type { FieldError } from '@/schemas/types';
 import { registerUser } from '@/services/user-api/auth';
 import FormInput from '@/components/ui/form-input';
-import FormDropdown from '@/components/productForm/FormDropdown';
+import FormDropdown from '@/components/ui/extend/FormDropdown';
 import { genders } from '@/constants/data-values';
 import ErrorMessage from '@/components/ui/error-message';
 import SubmitButton from '@/components/ui/submit-button';
