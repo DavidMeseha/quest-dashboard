@@ -43,7 +43,7 @@ export default function ProductsPage() {
       <div className="flex flex-col justify-between md:flex-row">
         <div className="flex flex-wrap items-center gap-4">
           <CategorySelect
-            canUseAllOption
+            useAllOption
             className="w-36"
             selectedCategoryId={selectedCategory}
             onChange={(value) => {

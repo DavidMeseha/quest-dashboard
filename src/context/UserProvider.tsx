@@ -1,12 +1,9 @@
 import LoadingSpinner from '@/components/ui/loading-spinner';
-import { REFRESH_QUERY_KEY, VERIFY_QUERY_KEY } from '@/constants/query-keys';
-import { removeToken, setToken } from '@/lib/localstorage';
+import useRefreshTokenQuery from '@/hooks/Queries/useRefreshTokenQuery';
+import useVerifyTokenQuery from '@/hooks/Queries/useVerifyTokenQuery';
 import type { IUser } from '@/schemas/types';
-import { checkTokenValidity, refreshToken } from '@/services/user-api/auth';
-import { useQuery } from '@tanstack/react-query';
 import { createContext, useContext, useState, type Dispatch } from 'react';
-import { useLocation, useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
+import { useLocation } from 'react-router';
 
 type Props = {
   children: React.ReactNode;
@@ -18,47 +15,16 @@ const userContext = createContext<ContextProvidedValues | undefined>(undefined);
 export default function UserProvider({ children }: Props) {
   const [user, setUser] = useState<IUser>();
   const { pathname } = useLocation();
-  const navigate = useNavigate();
 
-  const verifyQuery = useQuery({
-    queryKey: [VERIFY_QUERY_KEY],
-    queryFn: () =>
-      checkTokenValidity().then((data) => {
-        setUser(data);
-        if (data && !data.isVendor) navigate('/vendor');
-        return null;
-      }),
+  const verifyQuery = useVerifyTokenQuery({ onSuccess: setUser });
+  useRefreshTokenQuery({ enabled: Boolean(user), onFail: () => setUser(undefined) });
 
-    retry: false
-  });
-
-  useQuery({
-    queryKey: [REFRESH_QUERY_KEY],
-    queryFn: () =>
-      refreshToken()
-        .then((data) => {
-          setToken(data.token);
-          return null;
-        })
-        .catch(() => {
-          navigate('/login');
-          setUser(undefined);
-          removeToken();
-          toast.warn('Session Expired, Login to continue!');
-        }),
-
-    enabled: !!user,
-    refetchInterval: 1_680_000,
-    retry: false
-  });
+  const isLoadingUser = //To block pages that need user data ready
+    verifyQuery.isFetchedAfterMount || pathname.includes('login') || pathname.includes('register') || pathname === '/';
 
   return (
     <userContext.Provider value={{ user, setUser }}>
-      {verifyQuery.isFetchedAfterMount || pathname.includes('login') || pathname.includes('register') ? (
-        children
-      ) : (
-        <LoadingSpinner className="flex h-screen w-screen items-center justify-center" />
-      )}
+      {isLoadingUser ? children : <LoadingSpinner className="flex h-screen w-screen items-center justify-center" />}
     </userContext.Provider>
   );
 }

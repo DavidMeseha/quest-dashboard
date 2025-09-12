@@ -9,7 +9,7 @@ type Props = {
   className?: string;
   selectedCategoryId: string;
   preSelectedCategoryName?: string;
-  canUseAllOption?: boolean;
+  useAllOption?: boolean;
   onChange: (categoryId: string) => void;
 };
 
@@ -18,7 +18,7 @@ export default function CategorySelect({
   preSelectedCategoryName,
   onChange,
   className = '',
-  canUseAllOption = false
+  useAllOption = false
 }: Props) {
   const [categoryQuery, setCategoryQuery] = useState('');
 
@@ -29,7 +29,7 @@ export default function CategorySelect({
   const categories = categoriesQuery.data ?? [];
   const categoryQueryChangeHandle = useDebounce(setCategoryQuery);
   const options = [...categories.map((category) => ({ value: category._id, label: category.name }))];
-  if (canUseAllOption) options.push({ label: 'All Categories', value: '' });
+  if (useAllOption) options.push({ label: 'All Categories', value: '' });
 
   return (
     <DropdownInputSearch

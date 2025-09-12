@@ -14,7 +14,6 @@ import { Input } from '../input';
 import { cn } from '@/lib/utils';
 import { Separator } from '@radix-ui/react-select';
 import LoadingSpinner from '../loading-spinner';
-import ErrorMessage from '../error-message';
 
 export type SetState<T> = Dispatch<SetStateAction<T>>;
 
@@ -136,7 +135,7 @@ export function DropdownInputSearch({
               </li>
             ))}
 
-            {options.length < 1 && <ErrorMessage error="Could Not find category" />}
+            {options.length < 1 && <span>No Catigories found</span>}
           </ul>
         )}
       </PopoverContent>
