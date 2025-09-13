@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { Link, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 type Props = {
   item: {
@@ -12,29 +12,34 @@ type Props = {
 
 export default function NavItem({ item, onClick }: Props) {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const clickHandle = (to: string) => {
+    navigate(to);
+    onClick?.();
+  };
 
   return (
     <li
       className={cn(
-        'group my-4 flex h-8 w-full items-center overflow-hidden rounded p-1',
-        'outline outline-transparent transition-all duration-300 hover:bg-gray-100 hover:outline-gray-200 md:bg-white',
-        location.pathname === item.to && 'bg-gray-100 outline-gray-200',
-        'hover:w-44'
+        'group my-4 flex h-8 w-full cursor-pointer items-center overflow-hidden rounded p-1 outline outline-transparent',
+        'transition-all duration-400 hover:w-44 hover:bg-gray-100 hover:outline-gray-600 md:bg-white',
+        location.pathname === item.to && 'bg-gray-100 outline-gray-600'
       )}
     >
       {item.to ? (
-        <Link to={item.to} className="inline-flex w-full items-center gap-4">
-          <i className="-mb-0.5 min-w-[1.8rem]">{item.icon}</i>
-          <p className="w-auto text-nowrap opacity-100 transition-all duration-300 [data-open='false']:w-0 [data-open='false']:opacity-0">
-            {item.name}
-          </p>
-        </Link>
+        <button
+          role="link"
+          className="flex w-full cursor-pointer items-center gap-4"
+          onClick={() => clickHandle(item.to || '')}
+        >
+          <i className="ms-0.5 -mb-1">{item.icon}</i>
+          <p className="text-nowrap">{item.name}</p>
+        </button>
       ) : (
-        <button className="inline-flex w-full cursor-pointer items-center gap-4" onClick={onClick}>
-          <i className="-mb-0.5 min-w-[1.8rem]">{item.icon}</i>
-          <p className="w-auto text-nowrap opacity-100 transition-all duration-300 [data-open='false']:w-0 [data-open='false']:opacity-0">
-            {item.name}
-          </p>
+        <button role="link" className="flex w-full cursor-pointer items-center gap-4" onClick={onClick}>
+          <i className="ms-0.5 -mb-1">{item.icon}</i>
+          <p className="text-nowrap">{item.name}</p>
         </button>
       )}
     </li>
