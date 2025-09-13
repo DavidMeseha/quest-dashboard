@@ -1,4 +1,4 @@
-import { getToken } from '@/lib/localstorage';
+import { getToken } from '@/lib/token';
 import axios from 'axios';
 
 export const BASE_URL = import.meta.env.VITE_USER_API;

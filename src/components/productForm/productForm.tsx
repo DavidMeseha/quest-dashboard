@@ -23,6 +23,7 @@ import CreateProductAttributesForm from './CreateProductAttributesForm';
 import { NavLink } from 'react-router';
 import { getChangedFields } from '@/lib/utils';
 import SubmitButton from '../ui/submit-button';
+import Label from '../ui/label';
 
 type Props = {
   product?: IFullProduct;
@@ -102,19 +103,19 @@ export default function ProductForm({ product, onSubmit, isPending, error }: Pro
 
         {/* Name, seName, SKU */}
         <div>
-          <label>Product Name</label>
           <FormInput
+            label="Product Name"
             {...form.register('name')}
             error={form.formState.errors.name?.message}
             onChange={(e) => debouncedNameChange(e.currentTarget.value)}
           />
           <div className="flex gap-x-4">
             <div className="flex-1">
-              <label className="text-muted-foreground">seName</label>
+              <Label className="text-muted-foreground">seName</Label>
               <Input disabled readOnly value={form.getValues('seName')} />
             </div>
             <div className="flex-1">
-              <label className="text-muted-foreground">SKU</label>
+              <Label className="text-muted-foreground">SKU</Label>
               <Input disabled readOnly value={form.getValues('sku')} />
             </div>
           </div>
@@ -123,8 +124,8 @@ export default function ProductForm({ product, onSubmit, isPending, error }: Pro
         {/* Price */}
         <div>
           <div>
-            <label>Current Price</label>
             <FormInput
+              label="Current Price"
               step="0.01"
               type="number"
               {...form.register('price.price', { valueAsNumber: true })}
@@ -132,32 +133,36 @@ export default function ProductForm({ product, onSubmit, isPending, error }: Pro
             />
           </div>
           <div className="mt-1">
-            <label>Old Price</label>
-            <FormInput step="0.01" type="number" {...form.register('price.oldPrice', { valueAsNumber: true })} />
+            <FormInput
+              label="Old Price"
+              step="0.01"
+              type="number"
+              {...form.register('price.oldPrice', { valueAsNumber: true })}
+            />
           </div>
         </div>
 
         {/* Description */}
         <div className="md:col-span-2">
-          <label>Full Description</label>
+          <Label>Full Description</Label>
           <Textarea {...form.register('fullDescription')} className="resize-none" rows={4} />
           <ErrorMessage error={form.formState.errors.fullDescription?.message} />
         </div>
 
         {/* Gender */}
         <div>
-          <label>Gender</label>
           <FormDropdown
             id="gender"
+            label="Gender"
             options={productGenders.map((g) => ({ name: g, value: g }))}
             value={form.watch('gender')}
-            onValueChange={(val) => form.setValue('gender', val as any)}
+            onValueChange={(val) => form.setValue('gender', val as ProductGender)}
           />
         </div>
 
         {/* Category */}
         <div>
-          <label>Category</label>
+          <Label>Category</Label>
           <CategorySelect
             preSelectedCategoryName={product?.category.name}
             selectedCategoryId={form.watch('category')}
@@ -168,15 +173,14 @@ export default function ProductForm({ product, onSubmit, isPending, error }: Pro
 
         {/* Tags */}
         <div>
-          <label>Tags</label>
+          <Label>Tags</Label>
           <TagsSelector tags={form.watch('tags') ?? []} onChange={handleTagsChange} />
           <ErrorMessage error={form.formState.errors.tags?.message} />
         </div>
 
         {/* Stock */}
         <div>
-          <label>Stock</label>
-          <Input type="number" {...form.register('stock', { valueAsNumber: true })} />
+          <FormInput label="Stock" type="number" {...form.register('stock', { valueAsNumber: true })} />
         </div>
 
         {/* Attributes */}

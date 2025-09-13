@@ -8,7 +8,7 @@ interface ClickRecognitionProps {
   enabled?: boolean;
 }
 
-export default function useClickRecognition({ onOutsideClick, containerRef, enabled = true }: ClickRecognitionProps) {
+export default function useOutsideClick({ onOutsideClick, containerRef, enabled = true }: ClickRecognitionProps) {
   const handleOutsideClick = useCallback(
     (event: MouseEvent | TouchEvent) => {
       if (!containerRef?.current || !event.target) return;

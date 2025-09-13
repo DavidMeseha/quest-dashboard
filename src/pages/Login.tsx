@@ -12,7 +12,7 @@ import FormInput from '@/components/ui/form-input';
 import ErrorMessage from '@/components/ui/error-message';
 import SubmitButton from '@/components/ui/submit-button';
 import Label from '@/components/ui/label';
-import { setToken } from '@/lib/localstorage';
+import { setToken } from '@/lib/token';
 
 export default function LoginPage() {
   const { setUser } = useUserState();

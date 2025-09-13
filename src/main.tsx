@@ -89,6 +89,6 @@ createRoot(document.getElementById('root')!).render(
         <RouterProvider router={router} />
       </Suspense>
     </QueryClientProvider>
-    <ToastContainer position="top-right" />
+    <ToastContainer theme="dark" position="top-right" />
   </StrictMode>
 );

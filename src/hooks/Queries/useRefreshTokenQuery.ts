@@ -1,9 +1,11 @@
 import { REFRESH_QUERY_KEY } from '@/constants/query-keys';
-import { removeToken, setToken } from '@/lib/localstorage';
+import { removeToken, setToken } from '@/lib/token';
 import { refreshToken } from '@/services/user-api/auth';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
+
+const REFRESH_INTERVAL = 1_680_000;
 
 type Props = {
   onSuccess?: (token: string) => void;
@@ -31,7 +33,7 @@ export default function useRefreshTokenQuery({ enabled, onFail, onSuccess }: Pro
         }),
 
     enabled,
-    refetchInterval: 1_680_000,
+    refetchInterval: REFRESH_INTERVAL,
     retry: false
   });
 }

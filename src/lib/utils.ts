@@ -1,4 +1,3 @@
-import type { ProductForm } from '@/schemas/validation';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -6,9 +5,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function getChangedFields(initial: ProductForm, current: ProductForm) {
+export function getChangedFields<T extends Record<string, any>>(initial: T, current: T) {
   const changed: Record<string, any> = {};
-  let key: keyof ProductForm;
+  let key: string;
   for (key in current) {
     if (Array.isArray(current[key]) || typeof current[key] === 'object') {
       if (JSON.stringify(current[key]) !== JSON.stringify(initial[key])) {
@@ -20,5 +19,5 @@ export function getChangedFields(initial: ProductForm, current: ProductForm) {
       }
     }
   }
-  return changed as Partial<ProductForm>;
+  return changed as Partial<T>;
 }

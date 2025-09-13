@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
-import { NavLink, useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { registerSchema, type RegisterForm } from '@/schemas/validation';
 import type { FieldError } from '@/schemas/types';
 import { registerUser } from '@/services/user-api/auth';
@@ -12,7 +12,6 @@ import FormDropdown from '@/components/ui/extend/FormDropdown';
 import { genders } from '@/constants/data-values';
 import ErrorMessage from '@/components/ui/error-message';
 import SubmitButton from '@/components/ui/submit-button';
-import Label from '@/components/ui/label';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -59,83 +58,76 @@ export default function RegisterPage() {
     <form onSubmit={handleSubmit(submitForm)}>
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold">Register</h1>
-        <NavLink className="text-primary text-sm hover:underline" to="/login">
+        <Link className="text-primary text-sm hover:underline" to="/login">
           Already have an account?
-        </NavLink>
+        </Link>
       </div>
 
-      <Label htmlFor="firstName">First Name</Label>
       <FormInput
         id="firstName"
+        label="First Name"
+        error={errors.firstName?.message}
+        placeholder="Jhon"
         {...register('firstName', {
           onChange: () => clearErrors('firstName')
         })}
-        error={errors.firstName?.message}
-        name="firstName"
-        placeholder="Jhon"
       />
 
-      <Label htmlFor="lastName">Last Name</Label>
       <FormInput
         id="lastName"
-        {...register('lastName', {
-          onChange: () => clearErrors('lastName')
-        })}
+        label="Last Name"
         error={errors.lastName?.message ?? ''}
         placeholder="Jhon"
         type="text"
+        {...register('lastName', {
+          onChange: () => clearErrors('lastName')
+        })}
       />
 
-      <Label htmlFor="email">Email</Label>
       <FormInput
         id="email"
-        {...register('email', {
-          onChange: () => clearErrors('email')
-        })}
+        label="Email"
         error={errors.email?.message}
         placeholder="ex@email.com"
         type="email"
+        {...register('email', {
+          onChange: () => clearErrors('email')
+        })}
       />
 
-      <Label htmlFor="password">Password</Label>
       <FormInput
         id="password"
-        {...register('password', {
-          onChange: () => clearErrors('password')
-        })}
+        label="Password"
         error={errors.password?.message}
         placeholder="***************"
         type="password"
+        {...register('password', {
+          onChange: () => clearErrors('password')
+        })}
       />
 
-      <Label htmlFor="confirmPassword">Confirm Password</Label>
       <FormInput
         id="confirmPassword"
-        {...register('confirmPassword', {
-          onChange: () => clearErrors('confirmPassword')
-        })}
+        label="Confirm Password"
         error={errors.confirmPassword?.message}
         placeholder="***************"
         type="password"
+        {...register('confirmPassword', {
+          onChange: () => clearErrors('confirmPassword')
+        })}
       />
 
-      <Label htmlFor="gender">Gender</Label>
       <FormDropdown
         id="gender"
+        label="Gender"
         options={genders.map((g) => ({ name: g, value: g }))}
         value={watch('gender')}
         onValueChange={(val) => setValue('gender', val as any)}
+        error={errors.gender?.message}
       />
-      <ErrorMessage error={errors.gender?.message} />
-
-      {/* <DateDropdownNumbers
-        dayInputAttributes={{ ...register('dayOfBirth') }}
-        monthInputAttributes={{ ...register('monthOfBirth') }}
-        title="Date Of Birth"
-        yearInputAttributes={{ ...register('yearOfBirth') }}
-      /> */}
 
       <ErrorMessage error={formError} />
+
       <SubmitButton type="submit" className="w-full" isLoading={isLoading || registerMutation.isPending}>
         Register
       </SubmitButton>

@@ -4,13 +4,12 @@ import { useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { LogOut, MenuIcon, X } from 'lucide-react';
 import { Button } from './ui/button';
-import NavItem from './NavItem';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { logout } from '@/services/user-api/auth';
 import { useUserState } from '@/context/UserProvider';
-import { removeToken } from '@/lib/localstorage';
-import { useNavigate } from 'react-router';
-import useClickRecognition from '@/hooks/useClickRecognition';
+import { removeToken } from '@/lib/token';
+import { useLocation, useNavigate } from 'react-router';
+import useOutsideClick from '@/hooks/useOutsideClick';
 
 export default function SideBar() {
   const [open, setOpen] = useState(false);
@@ -29,7 +28,7 @@ export default function SideBar() {
     }
   });
 
-  useClickRecognition({ containerRef: asideRef, onOutsideClick: () => setOpen(false) });
+  useOutsideClick({ containerRef: asideRef, onOutsideClick: () => setOpen(false) });
 
   return (
     <>
@@ -48,7 +47,11 @@ export default function SideBar() {
             <span className={cn('transition-all duration-300', open ? 'w-auto opacity-100' : 'w-0 opacity-0')}>
               TechShop
             </span>
-            <MenuButton isMenuOpen={open} onClick={() => setOpen((prev) => !prev)} className="ms-6 mb-1 md:hidden" />
+            <MenuButton
+              isMenuOpen={open}
+              onClick={() => setOpen((prev) => !prev)}
+              className="bg-accent ms-3 border-none drop-shadow-transparent md:hidden"
+            />
           </div>
           <ul>
             {sideNav.map((item) => (
@@ -56,40 +59,76 @@ export default function SideBar() {
             ))}
           </ul>
         </div>
-        <div>
+        <div className="pb-4">
           <NavItem item={{ icon: <LogOut size={20} />, name: 'Logout' }} onClick={() => logoutMutation.mutate()} />
           <MenuButton isMenuOpen={open} onClick={() => setOpen((prev) => !prev)} className="hidden md:block" />
-          <div className="mb-4" />
         </div>
       </aside>
-      <Button
-        variant="outline"
-        className="fixed start-2 top-2 z-40 hover:bg-gray-200 md:hidden"
-        onClick={() => setOpen(true)}
-      >
-        <MenuIcon />
-      </Button>
+      <MenuButton
+        isMenuOpen={open}
+        onClick={() => setOpen((prev) => !prev)}
+        className="fixed start-2 top-2 z-40 md:hidden"
+      />
     </>
   );
 }
 
-function MenuButton({
-  isMenuOpen,
-  onClick,
-  className
-}: {
+type MenuButtonProps = {
   isMenuOpen: boolean;
   onClick: () => void;
   className?: string;
-}) {
+};
+
+function MenuButton({ isMenuOpen, onClick, className }: MenuButtonProps) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn('cursor-pointer rounded transition hover:bg-gray-200', className)}
-    >
+    <Button variant="outline" onClick={onClick} className={cn('cursor-pointer', className)}>
       {isMenuOpen ? <X size={25} /> : <MenuIcon size={25} />}
       <span className="sr-only">Toggle Sidebar</span>
-    </button>
+    </Button>
+  );
+}
+
+type NavItemProps = {
+  item: {
+    to?: string;
+    name: string;
+    icon: React.ReactElement;
+  };
+  onClick?: () => void;
+};
+
+function NavItem({ item, onClick }: NavItemProps) {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const clickHandle = (to: string) => {
+    navigate(to);
+    onClick?.();
+  };
+
+  return (
+    <li
+      className={cn(
+        'group my-4 flex h-8 w-full cursor-pointer items-center overflow-hidden rounded p-1 outline outline-transparent',
+        'transition-all duration-400 hover:w-44 hover:bg-gray-100 hover:outline-gray-600 md:bg-white',
+        location.pathname === item.to && 'bg-gray-100 outline-gray-600'
+      )}
+    >
+      {item.to ? (
+        <button
+          role="link"
+          className="flex w-full cursor-pointer items-center gap-4"
+          onClick={() => clickHandle(item.to || '')}
+        >
+          <i className="ms-0.5 -mb-1">{item.icon}</i>
+          <p className="text-nowrap">{item.name}</p>
+        </button>
+      ) : (
+        <button role="link" className="flex w-full cursor-pointer items-center gap-4" onClick={onClick}>
+          <i className="ms-0.5 -mb-1">{item.icon}</i>
+          <p className="text-nowrap">{item.name}</p>
+        </button>
+      )}
+    </li>
   );
 }
