@@ -35,7 +35,6 @@ export default function SideBar() {
     <>
       <aside
         ref={asideRef}
-        data-open={open ? 'true' : 'false'}
         className={cn(
           'bg-accent md:bg-card fixed -start-full top-0 z-50 flex h-[100dvh] flex-col justify-between border p-4 shadow transition-all duration-300 md:sticky',
           open ? 'start-0 flex w-60 min-w-60' : 'w-[4.3rem] min-w-[4.3rem]'
