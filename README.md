@@ -45,11 +45,13 @@ Test it online at: [Live Demo](https://quest-dashboard-eosin.vercel.app/)
    npm install
    ```
 2. **Create a `.env` file**
- in the root of your project and set the following variables:
+   in the root of your project and set the following variables:
+
 ```env
 VITE_USER_API=https://techshop-ecommerce-backend-production.up.railway.app/
 VITE_DASHBOARD_API=https://myshop-dashboard-production.up.railway.app/
 ```
+
 **Note**: Make sure you running on port 3001 to use the remote API
 
 3. **Run the development server**

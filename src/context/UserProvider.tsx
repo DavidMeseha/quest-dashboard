@@ -1,6 +1,6 @@
 import LoadingSpinner from '@/components/ui/loading-spinner';
-import useRefreshTokenQuery from '@/hooks/queries/useRefreshTokenQuery';
-import useVerifyTokenQuery from '@/hooks/queries/useVerifyTokenQuery';
+import useRefreshTokenQuery from '@/hooks/queries/useRefreshToken';
+import useVerifyTokenQuery from '@/hooks/queries/useVerifyToken';
 import type { IUser } from '@/schemas/types';
 import { createContext, useContext, useState, type Dispatch } from 'react';
 import { useLocation } from 'react-router';
