@@ -1,4 +1,4 @@
-import { sideNav } from '@/constants/navs';
+import { sideNav } from '@/constants/menus';
 import { BiShoppingBag } from 'react-icons/bi';
 import { useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
