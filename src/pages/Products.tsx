@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { ADMIN_PRODUCTS_QUERY_KEY } from '@/constants/query-keys';
@@ -6,30 +6,37 @@ import getProducts from '@/services/admin-api/getProducts';
 import useDebounce from '@/hooks/useDebounce';
 import { Input } from '@/components/ui/input';
 import CategorySelect from '@/components/ui/extend/CategorySelect';
-import { NavLink } from 'react-router';
+import { NavLink, useSearchParams } from 'react-router';
 import LoadingSpinner from '@/components/ui/loading-spinner';
 import DataPagination from '@/components/ui/extend/Pagination';
 import ProductCard from '@/components/ProductCard';
 
 export default function ProductsPage() {
-  const [page, setPage] = useState(1);
-  const [search, setSearch] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const isFeltering = !!selectedCategory || !!search;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = parseInt(searchParams.get('page') ?? '1');
+  const category = searchParams.get('category') || '';
+  const search = searchParams.get('search') || '';
+  const isFiltering = !!category || !!search;
+
+  const setQueris = (props: { page?: string; category?: string; search?: string }) => {
+    setSearchParams({ page: page.toString(), category, search, ...props });
+  };
 
   const { data, isLoading, isFetching } = useQuery({
-    queryKey: [ADMIN_PRODUCTS_QUERY_KEY, page, search, selectedCategory],
-    queryFn: () => getProducts({ page: page, limit: 5, query: search, category: selectedCategory }),
+    queryKey: [ADMIN_PRODUCTS_QUERY_KEY, page, search, category],
+    queryFn: () => getProducts({ page: page, limit: 5, query: search, category }),
     placeholderData: keepPreviousData
   });
-  const products = data?.data ?? [];
-  const totalPages = data?.totalPages ?? 1;
-  const currentPage = data?.currentPage ?? 1;
+  const products = data?.data || [];
+  const totalPages = data?.totalPages || 1;
 
   const searchProductNameHandle = useDebounce((e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-    setPage(1);
+    setQueris({ page: '1', search: e.target.value });
   });
+
+  useEffect(() => {
+    setQueris({});
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -45,11 +52,8 @@ export default function ProductsPage() {
           <CategorySelect
             useAllOption
             className="w-36"
-            selectedCategoryId={selectedCategory}
-            onChange={(value) => {
-              setSelectedCategory(value);
-              setPage(1);
-            }}
+            selectedCategoryId={category}
+            onChange={(value) => setQueris({ page: '1', category: value })}
           />
           <NavLink
             className="bg-primary text-primary-foreground flex items-center justify-center rounded-md px-4 py-2 text-sm font-bold"
@@ -65,7 +69,11 @@ export default function ProductsPage() {
         </div>
 
         <div className="mt-6 md:mt-0">
-          <DataPagination currentPage={currentPage} totalPages={totalPages} onPageChang={(target) => setPage(target)} />
+          <DataPagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChang={(target) => setQueris({ page: String(target) })}
+          />
         </div>
       </div>
 
@@ -74,13 +82,17 @@ export default function ProductsPage() {
           products?.map((product) => <ProductCard key={product._id} product={product} />)
         ) : (
           <div className="text-muted-foreground flex h-[50vh] items-center justify-center text-center">
-            {isFeltering ? 'No products matching prams' : 'You have no products Yet'}
+            {isFiltering ? 'No products matching prams' : 'You have no products Yet'}
           </div>
         )}
       </div>
 
       <div className="mt-6 flex justify-center gap-2">
-        <DataPagination currentPage={currentPage} totalPages={totalPages} onPageChang={(target) => setPage(target)} />
+        <DataPagination
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChang={(target) => setQueris({ page: String(target) })}
+        />
       </div>
     </div>
   );
