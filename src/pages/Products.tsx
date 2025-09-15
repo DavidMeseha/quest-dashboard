@@ -7,9 +7,12 @@ import useDebounce from '@/hooks/useDebounce';
 import { Input } from '@/components/ui/input';
 import CategorySelect from '@/components/ui/extend/CategorySelect';
 import { NavLink, useSearchParams } from 'react-router';
-import LoadingSpinner from '@/components/ui/loading-spinner';
 import DataPagination from '@/components/ui/extend/Pagination';
 import ProductCard from '@/components/ProductCard';
+import { BiRefresh } from 'react-icons/bi';
+import SubmitButton from '../components/ui/submit-button';
+
+const PRODUCTS_PER_PAGE = 5;
 
 export default function ProductsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -22,17 +25,17 @@ export default function ProductsPage() {
     setSearchParams({ page: page.toString(), category, search, ...props });
   };
 
-  const { data, isLoading, isFetching } = useQuery({
+  const searchProductNameHandle = useDebounce((e: React.ChangeEvent<HTMLInputElement>) => {
+    setQueris({ page: '1', search: e.target.value });
+  });
+
+  const { data, isLoading, isFetching, refetch } = useQuery({
     queryKey: [ADMIN_PRODUCTS_QUERY_KEY, page, search, category],
-    queryFn: () => getProducts({ page: page, limit: 5, query: search, category }),
+    queryFn: () => getProducts({ page, limit: PRODUCTS_PER_PAGE, query: search, category }),
     placeholderData: keepPreviousData
   });
   const products = data?.data || [];
   const totalPages = data?.totalPages || 1;
-
-  const searchProductNameHandle = useDebounce((e: React.ChangeEvent<HTMLInputElement>) => {
-    setQueris({ page: '1', search: e.target.value });
-  });
 
   useEffect(() => {
     setQueris({});
@@ -48,7 +51,7 @@ export default function ProductsPage() {
       </div>
 
       <div className="flex flex-col justify-between md:flex-row">
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap items-center gap-2">
           <CategorySelect
             useAllOption
             className="w-36"
@@ -63,21 +66,21 @@ export default function ProductsPage() {
             <span>New Product</span>
           </NavLink>
 
-          {(isLoading || isFetching) && (
-            <LoadingSpinner className="fill-muted-foreground inline-block w-auto" size={18} />
-          )}
+          <SubmitButton variant="ghost" className="px-3" onClick={() => refetch()} isLoading={isLoading || isFetching}>
+            <BiRefresh />
+          </SubmitButton>
         </div>
 
         <div className="mt-6 md:mt-0">
           <DataPagination
             currentPage={page}
             totalPages={totalPages}
-            onPageChang={(target) => setQueris({ page: String(target) })}
+            onPageChange={(target) => setQueris({ page: String(target) })}
           />
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="min-h-[30rem] space-y-4">
         {products.length > 0 ? (
           products?.map((product) => <ProductCard key={product._id} product={product} />)
         ) : (
@@ -91,7 +94,7 @@ export default function ProductsPage() {
         <DataPagination
           currentPage={page}
           totalPages={totalPages}
-          onPageChang={(target) => setQueris({ page: String(target) })}
+          onPageChange={(target) => setQueris({ page: String(target) })}
         />
       </div>
     </div>

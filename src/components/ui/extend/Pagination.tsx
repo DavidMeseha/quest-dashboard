@@ -11,82 +11,62 @@ import {
 type Props = {
   currentPage: number;
   totalPages: number;
-  onPageChang: (page: number) => void;
+  onPageChange: (page: number) => void;
 };
 
-export default function DataPagination({ currentPage, totalPages, onPageChang }: Props) {
-  const handleClicks = (page: number) => {
-    if (page <= 0 || page > totalPages) return;
-    onPageChang(page);
+export default function DataPagination({ currentPage, totalPages, onPageChange }: Props) {
+  const handleClick = (page: number) => {
+    if (page <= 0 || page > totalPages || page === currentPage) return;
+    onPageChange(page);
   };
 
-  if (totalPages === 0)
-    return (
-      <Pagination dir="ltr">
-        <PaginationContent>
-          <PaginationItem className="cursor-pointer">
-            <PaginationPrevious
-              className={currentPage <= 1 ? 'cursor-not-allowed opacity-40 hover:bg-transparent' : ''}
-            />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink isActive>{currentPage}</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext
-              className={currentPage >= totalPages ? 'cursor-not-allowed opacity-40 hover:bg-transparent' : ''}
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
-    );
+  if (totalPages <= 1) return null;
+
+  // Helper to generate page numbers (simple version for up to 5 pages)
+  const getPages = () => {
+    const pages = [];
+    if (totalPages <= 5) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      if (currentPage > 2) pages.push(1, '...');
+      for (let i = Math.max(1, currentPage - 1); i <= Math.min(totalPages, currentPage + 1); i++) {
+        pages.push(i);
+      }
+      if (currentPage < totalPages - 1) pages.push('...', totalPages);
+    }
+    return pages;
+  };
 
   return (
     <Pagination dir="ltr">
       <PaginationContent>
-        <PaginationItem className="cursor-pointer">
+        <PaginationItem>
           <PaginationPrevious
             className={currentPage <= 1 ? 'cursor-not-allowed opacity-40 hover:bg-transparent' : ''}
-            onClick={() => handleClicks(currentPage - 1)}
+            aria-disabled={currentPage <= 1}
+            onClick={() => handleClick(currentPage - 1)}
           />
         </PaginationItem>
-        {currentPage - 2 > 0 && (
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-        )}
-        {currentPage + 1 > totalPages && totalPages > 2 && (
-          <PaginationItem className="cursor-pointer">
-            <PaginationLink onClick={() => handleClicks(currentPage - 2)}>{currentPage - 2}</PaginationLink>
-          </PaginationItem>
-        )}
-        {currentPage - 1 > 0 && (
-          <PaginationItem className="cursor-pointer">
-            <PaginationLink onClick={() => handleClicks(currentPage - 1)}>{currentPage - 1}</PaginationLink>
-          </PaginationItem>
+        {getPages().map((page, idx) =>
+          page === '...' ? (
+            <PaginationItem key={idx} className="cursor-pointer">
+              <PaginationEllipsis />
+            </PaginationItem>
+          ) : (
+            <PaginationItem key={page} className="cursor-pointer">
+              <PaginationLink isActive={page === currentPage} onClick={() => handleClick(Number(page))}>
+                {page}
+              </PaginationLink>
+            </PaginationItem>
+          )
         )}
         <PaginationItem>
-          <PaginationLink isActive>{currentPage}</PaginationLink>
-        </PaginationItem>
-        {currentPage + 1 <= totalPages && (
-          <PaginationItem className="cursor-pointer">
-            <PaginationLink onClick={() => handleClicks(currentPage + 1)}>{currentPage + 1}</PaginationLink>
-          </PaginationItem>
-        )}
-        {currentPage - 1 <= 0 && totalPages > 2 && (
-          <PaginationItem className="cursor-pointer">
-            <PaginationLink onClick={() => handleClicks(currentPage + 2)}>{currentPage + 2}</PaginationLink>
-          </PaginationItem>
-        )}
-        {currentPage + 1 < totalPages && (
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-        )}
-        <PaginationItem className="cursor-pointer">
           <PaginationNext
-            className={currentPage >= totalPages ? 'cursor-not-allowed opacity-40 hover:bg-transparent' : ''}
-            onClick={() => handleClicks(currentPage + 1)}
+            className={
+              currentPage >= totalPages ? 'cursor-not-allowed opacity-40 hover:bg-transparent' : 'cursor-pointer'
+            }
+            aria-disabled={currentPage >= totalPages}
+            onClick={() => handleClick(currentPage + 1)}
           />
         </PaginationItem>
       </PaginationContent>

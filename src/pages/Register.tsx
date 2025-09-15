@@ -42,7 +42,7 @@ export default function RegisterPage() {
       setIsLoading(false);
       if (isAxiosError(error)) {
         if (error.response?.data?.message === 'EMAIL_IN_USE') {
-          return setFormError('email is not valid');
+          return setFormError('Email is already registered!');
         }
         setFormError(error.response?.data?.message ?? 'Somthing went wron try again later');
       }
@@ -126,7 +126,7 @@ export default function RegisterPage() {
         error={errors.gender?.message}
       />
 
-      <ErrorMessage error={formError} />
+      <ErrorMessage className="mb-2" error={formError} />
 
       <SubmitButton type="submit" className="w-full" isLoading={isLoading || registerMutation.isPending}>
         Register
