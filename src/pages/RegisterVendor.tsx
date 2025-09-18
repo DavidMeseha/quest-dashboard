@@ -18,10 +18,12 @@ import { GENERATE_VENDOR_SKU_QUERY_KEY } from '@/constants/query-keys';
 export default function RegisterVendorPage() {
   const navigate = useNavigate();
   const { setUser, user } = useUserState();
+
   const [name, setName] = useState('');
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [image, setImage] = useState<string | null>(null);
   const [error, setError] = useState<FieldError>();
+
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [isLoading, setLoading] = useState(false);
 
   const debouncedInputChange = useDebounce((value: string) => {
@@ -66,6 +68,7 @@ export default function RegisterVendorPage() {
     setLoading(true);
     submitVendorMutation.mutate({ image, name, seName });
   };
+
   return (
     <>
       <div className="mb-6 flex items-center justify-between">

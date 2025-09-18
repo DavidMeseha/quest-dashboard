@@ -74,7 +74,12 @@ VITE_DASHBOARD_API=https://myshop-dashboard-production.up.railway.app/
 **Folder Structure**
 
 - `src/components/` – UI and dashboard components
+- `src/layouts/` – UI layouts and warpers
+- `src/pages/` – Main pages content
 - `src/services/user-api/` – User authentication and profile API logic
 - `src/services/admin-api/` – Vendor and product management API logic
 - `src/context/` – React context providers (e.g., user state)
 - `src/hooks/` – Custom React hooks
+- `src/lib/` – Helpers, utilities and libraries
+- `src/schemas/` – Forms validation & Global types
+- `src/constants/` – Static data values (e.g., Menus & query keys)

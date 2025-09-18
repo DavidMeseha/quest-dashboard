@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router';
-import NetworkErrorBoundary from './layouts/NetworkErrorBoundary';
-import UserProvider from './context/UserProvider';
+import NetworkErrorBoundary from './NetworkErrorBoundary';
+import UserProvider from '../context/UserProvider';
 
-export default function App() {
+export default function PagesWarper() {
   return (
     <NetworkErrorBoundary>
       <UserProvider>

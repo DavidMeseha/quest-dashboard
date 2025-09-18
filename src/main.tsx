@@ -11,7 +11,7 @@ import AppPagesLayout from './layouts/AppPages';
 import LoadingSpinner from './components/ui/loading-spinner';
 import LoginPage from './pages/Login';
 import RegisterVendorPage from './pages/RegisterVendor';
-import App from './App';
+import PagesWarper from './layouts/PagesWarper';
 import RegisterPage from './pages/Register';
 import VendorGuard from './layouts/VendorGuard';
 import UserGuard from './layouts/UserGuard';
@@ -19,7 +19,7 @@ import UserGuard from './layouts/UserGuard';
 const router = createBrowserRouter([
   {
     errorElement: <ErrorPage />,
-    Component: App,
+    Component: PagesWarper,
     children: [
       {
         Component: VendorGuard,
