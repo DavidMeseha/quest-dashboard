@@ -3,7 +3,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { X } from 'lucide-react';
 import { isAxiosError } from 'axios';
 import { Link, useNavigate } from 'react-router';
-import type { FieldError, IUser } from '@/schemas/types';
+import type { FieldError } from '@/schemas/types';
 import { registerVendor, type RegisterVendorBody } from '@/services/admin-api/register-vendor';
 import { avilableVendorSename } from '@/services/admin-api/sename-sku';
 import useDebounce from '@/hooks/useDebounce';
@@ -13,6 +13,7 @@ import ImageInput from '@/components/ui/image-input';
 import FormInput from '@/components/ui/form-input';
 import Label from '@/components/ui/label';
 import SubmitButton from '@/components/ui/submit-button';
+import { GENERATE_VENDOR_SKU_QUERY_KEY } from '@/constants/query-keys';
 
 export default function RegisterVendorPage() {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ export default function RegisterVendorPage() {
   });
 
   const seNameQuery = useQuery({
-    queryKey: ['gen-sku', name],
+    queryKey: [GENERATE_VENDOR_SKU_QUERY_KEY, name],
     queryFn: () => avilableVendorSename({ name: name }),
     enabled: !!name
   });
@@ -37,7 +38,8 @@ export default function RegisterVendorPage() {
   const submitVendorMutation = useMutation({
     mutationFn: (props: RegisterVendorBody) => registerVendor({ ...props }),
     onSuccess: () => {
-      setUser({ ...(user as IUser), isVendor: true });
+      if (!user) return navigate('/login');
+      setUser({ ...user, isVendor: true });
       navigate('/products');
     },
     onError: (err) => {

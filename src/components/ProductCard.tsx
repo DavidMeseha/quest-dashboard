@@ -7,6 +7,7 @@ import { ADMIN_PRODUCTS_QUERY_KEY } from '@/constants/query-keys';
 import { format } from 'date-fns';
 import { NavLink } from 'react-router';
 import SubmitButton from './ui/submit-button';
+import { cn } from '@/lib/utils';
 
 type Props = {
   product: IFullProduct;
@@ -29,7 +30,10 @@ export default function ProductCard({ product }: Props) {
 
   return (
     <div
-      className={`bg-card text-card-foreground relative flex flex-col gap-4 rounded-lg border p-4 shadow-sm sm:flex-row sm:items-start ${product.stock > 0 && !product.deleted ? '' : 'border-destructive'}`}
+      className={cn(
+        'bg-card text-card-foreground relative flex flex-col gap-4 rounded-lg border p-4 shadow-sm sm:flex-row sm:items-start',
+        product.stock > 0 && !product.deleted ? '' : 'border-destructive'
+      )}
     >
       <div className="absolute start-2 top-2 z-20 flex gap-2">
         {product.deleted && <Badge variant="destructive">Deleted</Badge>}

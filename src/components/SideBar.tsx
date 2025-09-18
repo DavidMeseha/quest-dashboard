@@ -53,6 +53,7 @@ export default function SideBar() {
               className="bg-accent ms-3 border-none drop-shadow-transparent md:hidden"
             />
           </div>
+
           <ul>
             {sideNav.map((item) => (
               <NavItem item={item} key={item.to} onClick={() => setOpen(false)} />
@@ -61,7 +62,7 @@ export default function SideBar() {
         </div>
         <div className="pb-4">
           <NavItem item={{ icon: <LogOut size={20} />, name: 'Logout' }} onClick={() => logoutMutation.mutate()} />
-          <MenuButton isMenuOpen={open} onClick={() => setOpen((prev) => !prev)} className="hidden md:block" />
+          <MenuButton isMenuOpen={open} onClick={() => setOpen((prev) => !prev)} className="-ms-1 hidden md:block" />
         </div>
       </aside>
       <MenuButton

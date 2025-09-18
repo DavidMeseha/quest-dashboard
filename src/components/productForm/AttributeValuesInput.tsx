@@ -23,6 +23,7 @@ export function AttributeValuesInput({ form, attrIdx, type }: Props) {
         <Fragment key={field.id}>
           <div className="flex items-center gap-2">
             <Input placeholder="Value" {...form.register(`attributes.${attrIdx}.values.${idx}.name` as const)} />
+
             {type === 'Color' && (
               <Controller
                 control={form.control}
@@ -36,15 +37,14 @@ export function AttributeValuesInput({ form, attrIdx, type }: Props) {
               />
             )}
             <Input
-              step="0.01"
+              step="1"
               type="number"
               {...form.register(`attributes.${attrIdx}.values.${idx}.priceAdjustmentValue` as const, {
                 valueAsNumber: true
               })}
-              className="w-24"
             />
             <Button type="button" variant="destructive" onClick={() => remove(idx)}>
-              {'remove'}
+              Remove
             </Button>
           </div>
           <ErrorMessage
@@ -56,6 +56,7 @@ export function AttributeValuesInput({ form, attrIdx, type }: Props) {
           />
         </Fragment>
       ))}
+
       {fields.length < 10 && (
         <Button
           type="button"

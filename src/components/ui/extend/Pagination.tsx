@@ -22,7 +22,6 @@ export default function DataPagination({ currentPage, totalPages, onPageChange }
 
   if (totalPages <= 1) return null;
 
-  // Helper to generate page numbers (simple version for up to 5 pages)
   const getPages = () => {
     const pages = [];
     if (totalPages <= 5) {

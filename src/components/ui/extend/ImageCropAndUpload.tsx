@@ -5,6 +5,8 @@ import { useState } from 'react';
 import Cropper, { type Area } from 'react-easy-crop';
 import { Button } from '../button';
 import SubmitButton from '../submit-button';
+import ErrorMessage from '../error-message';
+import type { FieldError } from '@/schemas/types';
 
 type Props = {
   onSuccess: (image: string) => void;
@@ -14,8 +16,8 @@ type Props = {
 };
 
 export default function ImageCropAndUpload({ onSuccess, imageSrc, onCancel }: Props) {
-  const [imageError, setImageError] = useState<string | false>(false);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
+  const [imageError, setImageError] = useState<FieldError>();
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area>();
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
 
@@ -23,7 +25,7 @@ export default function ImageCropAndUpload({ onSuccess, imageSrc, onCancel }: Pr
     mutationKey: ['upload'],
     mutationFn: (formData: FormData) => uploadImage(formData),
     onSuccess: (data) => onSuccess(data.imageUrl),
-    onError: () => setImageError('upload.unableToUpload')
+    onError: () => setImageError('Faild to upload image')
   });
 
   const handleCropComplete = (_: Area, croppedAreaPixels: Area) => {
@@ -32,10 +34,14 @@ export default function ImageCropAndUpload({ onSuccess, imageSrc, onCancel }: Pr
 
   const handleCropConfirm = async () => {
     if (!imageSrc || !croppedAreaPixels) return;
-    const croppedBlob = await getCroppedImg(imageSrc, croppedAreaPixels);
-    const data = new FormData();
-    data.append('image', croppedBlob);
-    uploadImageMutation.mutate(data);
+    try {
+      const croppedBlob = await getCroppedImg(imageSrc, croppedAreaPixels);
+      const data = new FormData();
+      data.append('image', croppedBlob);
+      uploadImageMutation.mutate(data);
+    } catch {
+      setImageError('Faild to process image');
+    }
   };
 
   return (
@@ -67,7 +73,7 @@ export default function ImageCropAndUpload({ onSuccess, imageSrc, onCancel }: Pr
         <span className="text-muted-foreground text-xs">{zoom.toFixed(2)}x</span>
       </div>
 
-      {imageError && <div className="text-sm text-red-500">{imageError}</div>}
+      <ErrorMessage error={imageError} />
 
       <SubmitButton
         className="bg-primary text-white"

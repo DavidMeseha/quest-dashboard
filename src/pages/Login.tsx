@@ -38,12 +38,12 @@ export default function LoginPage() {
       navigate('/products');
     },
     onError: (err) => {
+      setIsLoading(false);
       if (isAxiosError(err)) {
         if (err.response?.status === 403) setFormError('Wrong Credentials');
         else setFormError(JSON.stringify(err.response?.data ?? 'Unknow error, try again later'));
       }
-    },
-    onSettled: () => setIsLoading(false)
+    }
   });
 
   const submitForm = (form: LoginForm) => loginMutation.mutate(form);
