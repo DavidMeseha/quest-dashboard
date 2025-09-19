@@ -18,14 +18,19 @@ export default function UserProvider({ children }: Props) {
 
   const verifyQuery = useVerifyTokenQuery({ onSuccess: setUser });
 
-  const awaitUser = //To block pages that need user data ready
-    verifyQuery.isFetchedAfterMount || pathname.includes('login') || pathname.includes('register') || pathname === '/';
+  //To block pages that need user data ready
+  const awaitUser = !(
+    verifyQuery.isFetchedAfterMount ||
+    pathname.includes('login') ||
+    pathname.includes('register') ||
+    pathname === '/'
+  );
 
   useRefreshTokenQuery({ enabled: Boolean(user), onFail: () => setUser(undefined) });
 
   return (
     <userContext.Provider value={{ user, setUser }}>
-      {awaitUser ? children : <LoadingSpinner className="flex h-screen w-screen items-center justify-center" />}
+      {awaitUser ? <LoadingSpinner className="flex h-screen w-screen items-center justify-center" /> : children}
     </userContext.Provider>
   );
 }

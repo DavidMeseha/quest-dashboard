@@ -3,12 +3,6 @@ export type Gender = 'male' | 'female';
 export type ProductGender = 'male' | 'female' | 'unisex';
 export type AttributeControlType = 'DropdownList' | 'RadioList' | 'Checkboxes' | 'TextBox' | 'Color';
 
-export interface Pagination {
-  current: number;
-  limit: number;
-  hasNext: boolean;
-}
-
 export interface IUser {
   _id: string;
   firstName: string;
@@ -17,19 +11,6 @@ export interface IUser {
   isRegistered: boolean;
   imageUrl: string;
   language: string;
-}
-
-export interface ICountry {
-  _id: string;
-  name: string;
-  code: string;
-  cities: ICity[];
-}
-
-export interface ICity {
-  _id: string;
-  name: string;
-  code: string;
 }
 
 export interface ICategory {
@@ -131,21 +112,4 @@ export interface IFullProduct {
   isSaved: boolean;
   isReviewed: boolean;
   isInCart: boolean;
-}
-
-export interface Paginated<Data> {
-  data: Data[];
-  pages: Pagination;
-}
-
-export interface AdminPaginatedResponse<Data> {
-  data: Data[];
-  currentPage: number;
-  nextPage: number;
-  previousPage: number;
-  limit: number;
-  hasNext: boolean;
-  hasPrevious: boolean;
-  totalPages: number;
-  totalCount: number;
 }
