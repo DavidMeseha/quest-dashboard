@@ -1,5 +1,6 @@
-import type { AdminPaginatedResponse, IFullProduct } from '@/schemas/types';
+import type { IFullProduct } from '@/schemas/types';
 import api from './api';
+import type { AdminPaginatedResponse } from './types';
 
 export default async function getProducts(params: {
   page: number;

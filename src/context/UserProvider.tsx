@@ -17,6 +17,7 @@ export default function UserProvider({ children }: Props) {
   const { pathname } = useLocation();
 
   const verifyQuery = useVerifyTokenQuery({ onSuccess: setUser });
+  useRefreshTokenQuery({ enabled: Boolean(user), onFail: () => setUser(undefined) });
 
   //To block pages that need user data ready
   const awaitUser = !(
@@ -25,8 +26,6 @@ export default function UserProvider({ children }: Props) {
     pathname.includes('register') ||
     pathname === '/'
   );
-
-  useRefreshTokenQuery({ enabled: Boolean(user), onFail: () => setUser(undefined) });
 
   return (
     <userContext.Provider value={{ user, setUser }}>
