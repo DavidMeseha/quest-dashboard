@@ -57,12 +57,17 @@ const router = createBrowserRouter([
           {
             path: '/register',
             Component: RegisterPage
-          },
+          }
+        ]
+      },
+      {
+        Component: UserGuard,
+        children: [
           {
-            Component: UserGuard,
+            Component: AuthPagesLayout,
             children: [
               {
-                path: '/vendor',
+                path: '/create-vendor',
                 Component: RegisterVendorPage
               }
             ]

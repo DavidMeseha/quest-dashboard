@@ -41,7 +41,7 @@ export default function DataPagination({ currentPage, totalPages, onPageChange }
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            className={currentPage <= 1 ? 'cursor-not-allowed opacity-40 hover:bg-transparent' : ''}
+            className={currentPage <= 1 ? 'cursor-not-allowed opacity-40 hover:bg-transparent' : 'cursor-pointer'}
             aria-disabled={currentPage <= 1}
             onClick={() => handleClick(currentPage - 1)}
           />

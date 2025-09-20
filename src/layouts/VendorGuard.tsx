@@ -12,7 +12,7 @@ export default function VendorGuard() {
       return;
     }
     if (!user?.isVendor) {
-      navigate('/vendor');
+      navigate('/create-vendor');
       return;
     }
   }, []);
