@@ -46,13 +46,11 @@ export default function RegisterPage() {
         }
         setFormError(error.response?.data?.message ?? 'Somthing went wron try again later');
       }
-    }
+    },
+    onMutate: () => setIsLoading(true)
   });
 
-  const submitForm = (form: RegisterForm) => {
-    setIsLoading(true);
-    registerMutation.mutate(form);
-  };
+  const submitForm = (form: RegisterForm) => registerMutation.mutate(form);
 
   return (
     <form onSubmit={handleSubmit(submitForm)}>

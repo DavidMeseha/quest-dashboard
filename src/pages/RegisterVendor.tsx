@@ -24,7 +24,7 @@ export default function RegisterVendorPage() {
   const [error, setError] = useState<FieldError>();
 
   const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const debouncedInputChange = useDebounce((value: string) => {
     setName(value);
@@ -45,12 +45,13 @@ export default function RegisterVendorPage() {
       navigate('/products');
     },
     onError: (err) => {
-      setLoading(false);
+      setIsLoading(false);
       if (isAxiosError(err)) {
         if (err.response?.status === 409) return setError("You're already registered");
       }
       setError('Could Not register vendor');
-    }
+    },
+    onMutate: () => setIsLoading(true)
   });
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,7 +66,6 @@ export default function RegisterVendorPage() {
     if (!name.length) return setError('Name is required');
     if (name.length < 5) return setError('Name should be more than 5 letters');
     if (!image) return setError('Image is required');
-    setLoading(true);
     submitVendorMutation.mutate({ image, name, seName });
   };
 
