@@ -43,7 +43,8 @@ export default function LoginPage() {
         if (err.response?.status === 403) setFormError('Wrong Credentials');
         else setFormError(JSON.stringify(err.response?.data ?? 'Unknow error, try again later'));
       }
-    }
+    },
+    onMutate: () => setIsLoading(true)
   });
 
   const submitForm = (form: LoginForm) => loginMutation.mutate(form);
