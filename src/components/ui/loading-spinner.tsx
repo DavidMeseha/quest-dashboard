@@ -12,10 +12,10 @@ export default React.forwardRef<HTMLInputElement, Props>(function LoadingSpinner
 ) {
   return (
     <div
-      {...props}
       className={cn('fill-primary flex w-full flex-col items-center justify-center py-2', className)}
       ref={ref}
       role="status"
+      {...props}
     >
       <CgSpinner size={size} className="spinner" />
     </div>

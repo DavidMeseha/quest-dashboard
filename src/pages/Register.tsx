@@ -126,7 +126,7 @@ export default function RegisterPage() {
 
       <ErrorMessage className="mb-2" error={formError} />
 
-      <SubmitButton type="submit" className="w-full" isLoading={isLoading || registerMutation.isPending}>
+      <SubmitButton type="submit" className="w-full" isLoading={isLoading}>
         Register
       </SubmitButton>
     </form>

@@ -7,7 +7,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ToastContainer } from 'react-toastify';
 import ErrorPage from './pages/Error';
 import AuthPagesLayout from './layouts/AuthPages';
-import AppPagesLayout from './layouts/AppPages';
 import LoadingSpinner from './components/ui/loading-spinner';
 import LoginPage from './pages/Login';
 import RegisterVendorPage from './pages/RegisterVendor';
@@ -15,60 +14,49 @@ import PagesWarper from './layouts/PagesWarper';
 import RegisterPage from './pages/Register';
 import VendorGuard from './layouts/VendorGuard';
 import UserGuard from './layouts/UserGuard';
+import DashboardLayout from './layouts/Dashboard';
+import UserInitRequiredGuard from './layouts/UserInitRequiredGuard';
 
 const router = createBrowserRouter([
   {
     errorElement: <ErrorPage />,
-    Component: PagesWarper,
+    element: <PagesWarper />,
     children: [
       {
-        Component: VendorGuard,
+        element: <AuthPagesLayout />,
+        children: [
+          { path: '/', Component: LoginPage },
+          { path: '/login', Component: LoginPage },
+          { path: '/register', Component: RegisterPage }
+        ]
+      },
+      {
+        element: <UserInitRequiredGuard />,
         children: [
           {
-            Component: AppPagesLayout,
+            element: <VendorGuard />,
             children: [
               {
-                path: '/create-product',
-                Component: lazy(() => import('@/pages/CreateProduct'))
-              },
-              {
-                path: '/edit-product/:id',
-                Component: lazy(() => import('@/pages/EditProduct'))
-              },
-              {
-                path: '/products',
-                Component: lazy(() => import('@/pages/Products'))
+                element: <DashboardLayout />,
+                children: [
+                  { path: '/create-product', Component: lazy(() => import('@/pages/CreateProduct')) },
+                  { path: '/edit-product/:id', Component: lazy(() => import('@/pages/EditProduct')) },
+                  { path: '/products', Component: lazy(() => import('@/pages/Products')) }
+                ]
               }
             ]
           }
         ]
       },
       {
-        Component: AuthPagesLayout,
+        element: <UserInitRequiredGuard />,
         children: [
           {
-            path: '/',
-            Component: LoginPage
-          },
-          {
-            path: '/login',
-            Component: LoginPage
-          },
-          {
-            path: '/register',
-            Component: RegisterPage
-          }
-        ]
-      },
-      {
-        Component: UserGuard,
-        children: [
-          {
-            Component: AuthPagesLayout,
+            element: <UserGuard />,
             children: [
               {
-                path: '/create-vendor',
-                Component: RegisterVendorPage
+                element: <AuthPagesLayout />,
+                children: [{ path: '/create-vendor', element: <RegisterVendorPage /> }]
               }
             ]
           }

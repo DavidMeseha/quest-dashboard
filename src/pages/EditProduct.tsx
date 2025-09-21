@@ -1,34 +1,20 @@
 import ProductForm from '@/components/productForm/productForm';
-import { ADMIN_PRODUCTS_QUERY_KEY, PRODUCT_QUERY_KEY } from '@/constants/query-keys';
+import { ADMIN_PRODUCTS_QUERY_KEY } from '@/constants/query-keys';
 import { editProduct } from '@/services/admin-api/createProduct';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
-import getProduct from '@/services/admin-api/getProduct';
 import type { ProductForm as ProductInputForm } from '@/schemas/validation';
 import LoadingSpinner from '@/components/ui/loading-spinner';
 import { isAxiosError } from 'axios';
+import useGetProduct from '@/hooks/queries/useGetProduct';
 
 export default function EditProductPage() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const params = useParams();
 
-  const { data, isLoading } = useQuery({
-    queryKey: [PRODUCT_QUERY_KEY, params.id],
-    queryFn: () =>
-      getProduct(params.id as string).catch((err) => {
-        if (isAxiosError(err)) {
-          if (err.response?.status === 404) navigate('/notfound');
-        }
-
-        return undefined;
-      }),
-    gcTime: 0,
-    staleTime: 0,
-    refetchOnMount: true
-  });
-  const product = data;
+  const { data: product, isLoading } = useGetProduct(params.id as string);
 
   const { error, isPending, mutate } = useMutation({
     mutationFn: (form: Partial<ProductInputForm>) => editProduct(form, product?._id || ''),

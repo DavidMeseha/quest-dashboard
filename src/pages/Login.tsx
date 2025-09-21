@@ -11,7 +11,6 @@ import { NavLink, useNavigate } from 'react-router';
 import FormInput from '@/components/ui/form-input';
 import ErrorMessage from '@/components/ui/error-message';
 import SubmitButton from '@/components/ui/submit-button';
-import Label from '@/components/ui/label';
 import { setToken } from '@/lib/token';
 
 export default function LoginPage() {
@@ -60,29 +59,32 @@ export default function LoginPage() {
           </NavLink>
         </div>
 
-        <Label htmlFor="email">Email</Label>
         <FormInput
-          id="email"
           {...register('email', {
             onChange: () => clearErrors('email')
           })}
+          label="Email"
           error={errors.email?.message}
           placeholder="ex@email.com"
           type="email"
+          autoComplete="email"
         />
 
-        <Label htmlFor="password">Password</Label>
         <FormInput
           {...register('password', {
             onChange: () => clearErrors('password')
           })}
+          label="Password"
           error={errors.password?.message}
           placeholder="****************"
           type="password"
+          autoComplete="cuerrent-password"
         />
+
         <ErrorMessage error={formError} />
       </div>
-      <SubmitButton className="w-full" isLoading={loginMutation.isPending || isLoading} type="submit">
+
+      <SubmitButton className="w-full" isLoading={isLoading} type="submit">
         Login
       </SubmitButton>
 

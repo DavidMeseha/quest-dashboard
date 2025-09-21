@@ -121,11 +121,7 @@ export default function RegisterVendorPage() {
         />
         <p className="text-muted-foreground text-xs">SeName: {seName}</p>
         <div>
-          <SubmitButton
-            className="bg-primary text-primary-foreground w-full"
-            isLoading={submitVendorMutation.isPending || isLoading}
-            type="submit"
-          >
+          <SubmitButton className="bg-primary text-primary-foreground w-full" isLoading={isLoading} type="submit">
             Register
           </SubmitButton>
         </div>
