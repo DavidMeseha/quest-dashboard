@@ -1,4 +1,5 @@
 import { VERIFY_QUERY_KEY } from '@/constants/query-keys';
+import { getToken } from '@/lib/token';
 import type { IUser } from '@/schemas/types';
 import { checkTokenValidity } from '@/services/user-api/auth';
 import { useQuery } from '@tanstack/react-query';
@@ -18,6 +19,7 @@ export default function useVerifyTokenQuery({ onSuccess }: Props) {
 
     retry: false,
     refetchOnReconnect: false,
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
+    enabled: () => !!getToken()
   });
 }

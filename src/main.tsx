@@ -22,17 +22,32 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     element: <PagesWarper />,
     children: [
+      //Public routes
       {
         element: <AuthPagesLayout />,
         children: [
-          { path: '/', Component: LoginPage },
-          { path: '/login', Component: LoginPage },
-          { path: '/register', Component: RegisterPage }
+          { path: '/', element: <LoginPage /> },
+          { path: '/login', element: <LoginPage /> },
+          { path: '/register', element: <RegisterPage /> }
         ]
       },
+
+      //Protected Routes (need user initialized)
       {
         element: <UserInitRequiredGuard />,
         children: [
+          /** User only protected routes **/
+          {
+            element: <UserGuard />,
+            children: [
+              {
+                element: <AuthPagesLayout />,
+                children: [{ path: '/create-vendor', element: <RegisterVendorPage /> }]
+              }
+            ]
+          },
+
+          /** Vendor only protected routes **/
           {
             element: <VendorGuard />,
             children: [
@@ -43,20 +58,6 @@ const router = createBrowserRouter([
                   { path: '/edit-product/:id', Component: lazy(() => import('@/pages/EditProduct')) },
                   { path: '/products', Component: lazy(() => import('@/pages/Products')) }
                 ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        element: <UserInitRequiredGuard />,
-        children: [
-          {
-            element: <UserGuard />,
-            children: [
-              {
-                element: <AuthPagesLayout />,
-                children: [{ path: '/create-vendor', element: <RegisterVendorPage /> }]
               }
             ]
           }

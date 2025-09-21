@@ -30,6 +30,7 @@ export default function useRefreshTokenQuery({ enabled, onFail, onSuccess }: Pro
           removeToken();
           toast.warn('Session Expired, Login to continue!');
           onFail?.();
+          return null;
         }),
 
     enabled,

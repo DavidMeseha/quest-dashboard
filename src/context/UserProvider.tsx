@@ -1,5 +1,6 @@
 import useRefreshTokenQuery from '@/hooks/queries/useRefreshToken';
 import useVerifyTokenQuery from '@/hooks/queries/useVerifyToken';
+import { getToken } from '@/lib/token';
 import type { IUser } from '@/schemas/types';
 import { createContext, useContext, useState, type Dispatch } from 'react';
 
@@ -18,13 +19,10 @@ export default function UserProvider({ children }: Props) {
   const [user, setUser] = useState<IUser>();
 
   const verifyQuery = useVerifyTokenQuery({ onSuccess: setUser });
-  useRefreshTokenQuery({ enabled: Boolean(user), onFail: () => setUser(undefined) });
+  useRefreshTokenQuery({ enabled: !!user, onFail: () => setUser(undefined) });
 
-  return (
-    <userContext.Provider value={{ user, setUser, isInit: verifyQuery.isFetchedAfterMount }}>
-      {children}
-    </userContext.Provider>
-  );
+  const isInit = verifyQuery.isFetchedAfterMount || (!getToken() && !user) || !!user;
+  return <userContext.Provider value={{ user, setUser, isInit }}>{children}</userContext.Provider>;
 }
 
 export function useUserState() {
